@@ -1,3 +1,24 @@
+namespace SpriteKind {
+    export const food_2 = SpriteKind.create()
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    junior_trophies.setPosition(Math.randomRange(10, 160), Math.randomRange(10, 120))
+    info.startCountdown(10)
+    info.changeScoreBy(1)
+    plate.setPosition(Math.randomRange(10, 160), Math.randomRange(10, 120))
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
+    game.over(false, effects.dissolve)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.food_2, function (sprite, otherSprite) {
+    info.startCountdown(10)
+    info.changeScoreBy(2)
+    senior_trophies.setPosition(Math.randomRange(10, 160), Math.randomRange(10, 120))
+    plate.setPosition(Math.randomRange(10, 160), Math.randomRange(10, 120))
+})
+let plate: Sprite = null
+let senior_trophies: Sprite = null
+let junior_trophies: Sprite = null
 scene.setBackgroundColor(13)
 let Farrer_house = sprites.create(img`
 7 7 7 7 7 7 7 7 f f f f f f f f 
@@ -17,7 +38,9 @@ f f f f f f f f 7 7 7 7 7 7 7 7
 f f f f f f f f 7 7 7 7 7 7 7 7 
 f f f f f f f f 7 7 7 7 7 7 7 7 
 `, SpriteKind.Player)
-let junior_trophies = sprites.create(img`
+controller.moveSprite(Farrer_house)
+Farrer_house.setFlag(SpriteFlag.StayInScreen, true)
+junior_trophies = sprites.create(img`
 . . . 5 5 . . . 
 . . 5 5 5 5 . . 
 . 5 5 f f 5 5 . 
@@ -27,7 +50,7 @@ let junior_trophies = sprites.create(img`
 . . 5 5 5 5 . . 
 . . . 5 5 . . . 
 `, SpriteKind.Food)
-let senior_trophies = sprites.create(img`
+senior_trophies = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 . f f f f f f f f f f f f . . . 
@@ -44,8 +67,8 @@ let senior_trophies = sprites.create(img`
 . . . . e e e e e e . . . . . . 
 . . . e e e e e e e e . . . . . 
 . . . . . . . . . . . . . . . . 
-`, SpriteKind.Food)
-let consolation = sprites.create(img`
+`, SpriteKind.food_2)
+plate = sprites.create(img`
 . . . . . . . . . c c 8 . . . . 
 . . . . . . 8 c c c f 8 c c . . 
 . . . c c 8 8 f c a f f f c c . 
@@ -63,3 +86,5 @@ c a 8 a a c c c c a a f f f 8 a
 . . . . c c a b b c c c . . . . 
 . . . . . c c c c c c . . . . . 
 `, SpriteKind.Projectile)
+plate.setPosition(Math.randomRange(10, 160), Math.randomRange(10, 120))
+game.showLongText("help Farrer house win all the trophies to gain the golden fleur de lie once again", DialogLayout.Bottom)
